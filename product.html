@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Jwellery Store</title>
+    <style>
+        body{
+            background-color: coral;
+        }
+        #products{
+            display: grid;
+            padding:4%;
+            grid-template-columns: repeat(4,20%);
+            gap:5%;
+
+        }
+        img{
+            width:100%;
+            border: solid 2px;
+        }
+        #myform{
+            width:32%;
+            box-sizing: border-box;
+            margin-left: 3%;
+            
+        } 
+    </style>
+</head>
+<body>
+    <h1 style="margin-left: 3%;">
+        Online Jwellery Store
+    </h1>
+    <div style="display: flex;">
+    <form id="myform" onsubmit="storeLocation()">
+        <input type="text" placeholder="Jwellery Name" id="name"/>
+        <input type="text" placeholder="url" id="url"/>
+        <input type="submit"/>
+    </form>
+    <button onclick="showVisited()">showcart</button>
+    </div>
+    
+    <div id="products"></div>    
+</body>
+</html>
+<script>
+    function storeLocation()
+    {
+        let form=document.getElementById("myform");
+        let name=form.name.value;
+        let url=form.url.value;
+
+
+        let location={
+        name,
+        url,
+    }
+    console.log(location);
+    let arr;
+    arr=localStorage.getItem("locations");
+    if(arr==null)
+    {
+        arr=[];
+    }
+    else
+    {
+        arr=JSON.parse(localStorage.getItem("locations"));
+
+    }
+    arr.push(location);
+    localStorage.setItem("locations",JSON.stringify(arr));
+
+}
+
+
+
+function addProduct(el)
+{
+    var products=document.getElementById("products");
+     var div=document.createElement("div");
+
+
+    var  p=document.createElement("p");
+    p.innerHTML=el.name;
+    
+    var image=document.createElement("img");
+    image.src=el.url;
+    
+    var but=document.createElement("button");
+    but.innerHTML=`Add to cart`;
+
+    but.addEventListener('click',function(){
+        addtoVisited(el);
+    });
+    div.append(image,p,but);
+    products.append(div);
+}   
+function showlocations(el){
+let data=JSON.parse(localStorage.getItem("locations"));
+data.forEach(function(el) {
+    addProduct(el);
+});    
+}
+showlocations();
+function addtoVisited(obj)
+{
+    let location={
+        name,
+        url,
+    }
+    let arr;
+    arr=localStorage.getItem("cart");
+    if(arr==null)
+    {
+        arr=[];
+    }
+    else
+    {
+        arr=JSON.parse(localStorage.getItem("cart"));
+
+    }
+    arr.push(obj);
+    localStorage.setItem("locations",JSON.stringify(arr));
+}
+function showVisited(){
+window.location.href="cart.html"    
+}
+</script>
